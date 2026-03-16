@@ -4,12 +4,12 @@ import { QUESTIONS } from "../public/questions"
 import { useNavigate } from "react-router"
 import { selectAnswers } from "../app/selectors"
 
-const Test2 = () => {
+const Test4 = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
   const answers = useAppSelector(selectAnswers)
-  const set2 = QUESTIONS.slice(16, 32)
+  const set4 = QUESTIONS.slice(48)
 
   const handleAnswer = (id: number, isYes: boolean) => {
     dispatch(setAnswer({ id, value: isYes }))
@@ -17,7 +17,7 @@ const Test2 = () => {
 
   return (
     <main className="min-h-screen flex flex-col items-center bg-black font-huninn px-8">
-      {set2.map(question => (
+      {set4.map(question => (
         <div key={question.id} className="flex flex-col items-center text-2xl mt-6">
           <div className="flex text-lemon">
             <span>{question.id}.</span>
@@ -44,14 +44,14 @@ const Test2 = () => {
       <footer className="flex justify-center font-huninn py-4">
         <div className="flex justify-between bg-black w-2xl">
           <button 
-            onClick={() => navigate('/test1')}
+            onClick={() => navigate('/test3')}
             className="outline-2 outline-teal text-xl text-teal hover:text-aqua hover:outline-aqua rounded w-24 p-1 mt-3 cursor-pointer">
               Назад
           </button>
           <button 
-            onClick={() => navigate('/test3')}
-            className="outline-2 outline-teal text-xl text-teal hover:text-aqua hover:outline-aqua rounded w-24 p-1 mt-3 cursor-pointer">
-              Дальше
+            onClick={() => navigate('/result')}
+            className="outline-2 outline-electric text-xl text-electric hover:text-neon hover:outline-neon rounded px-2 mt-3 cursor-pointer">
+              Узнать результат
           </button>
         </div>
       </footer>
@@ -59,4 +59,4 @@ const Test2 = () => {
   )
 }
 
-export default Test2
+export default Test4

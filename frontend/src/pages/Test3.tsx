@@ -1,46 +1,61 @@
+import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { setAnswer } from "../app/answersSlice"
 import { QUESTIONS } from "../public/questions"
 import { useNavigate } from "react-router"
+import { selectAnswers } from "../app/selectors"
 
 const Test3 = () => {
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate()
-  const set3 = QUESTIONS.slice(16)
+  const answers = useAppSelector(selectAnswers)
+  const set3 = QUESTIONS.slice(32, 48)
+
+  const handleAnswer = (id: number, isYes: boolean) => {
+    dispatch(setAnswer({ id, value: isYes }))
+  }
 
   return (
-    <body className="flex flex-col items-center max-w-8xl mx-auto">
-      <main>
-        {set3.map(question => (
-          <fieldset className="flex flex-col items-center font-serif text-xl mt-4">
-            <div className="flex">
-              <span key={question.id}>{question.id}.</span>
-              <h3 className="ms-2">{question.text}</h3>
-            </div>
-            <div className="flex w-96 justify-between mt-2">
-              <div>
-                <input type="radio" id="yes" name="answer" value="yes" />
-                <label htmlFor="yes" className="ms-2">Это я</label>
-              </div>
-              <div>
-                <input type="radio" id="no" name="answer" value="no" />
-                <label htmlFor="no" className="ms-2">Это не я</label>
-              </div>
-            </div>
-          </fieldset>
-        ))}
-      </main>
-      <footer className="flex justify-between">
-        <button 
-          onClick={() => navigate('/test2')}
-          className="bg-blue-500 rounded w-24 p-3 mt-3 cursor-pointer">
-            Назад
-        </button>
-        <button 
-          onClick={() => navigate('/result')}
-          className="bg-blue-500 rounded p-3 mt-3 cursor-pointer">
-            Узнать результат
-        </button>
+    <main className="min-h-screen flex flex-col items-center bg-black font-huninn px-8">
+      {set3.map(question => (
+        <div key={question.id} className="flex flex-col items-center text-2xl mt-6">
+          <div className="flex text-lemon">
+            <span>{question.id}.</span>
+            <h3 className="ms-2">{question.text}</h3>
+          </div>
+          <div className="flex w-96 justify-between text-crimson text-xl mt-2">
+            <button 
+              onClick={() => handleAnswer(question.id, false)}
+              className={`outline hover:text-indigo 
+              hover:outline-indigo rounded w-24 p-1 mt-3 cursor-pointer
+              ${answers[question.id] === false && 'text-acid outline-acid'}`}>
+              Это не я
+            </button>
+            <button 
+              onClick={() => handleAnswer(question.id, true)}
+              className={`outline hover:text-indigo 
+              hover:outline-indigo rounded w-24 p-1 mt-3 cursor-pointer
+              ${answers[question.id] === true && 'text-acid outline-acid'}`}>
+              Это я
+            </button>
+          </div>
+        </div>
+      ))}
+      <footer className="flex justify-center font-huninn py-4">
+        <div className="flex justify-between bg-black w-2xl">
+          <button 
+            onClick={() => navigate('/test2')}
+            className="outline-2 outline-teal text-xl text-teal hover:text-aqua hover:outline-aqua rounded w-24 p-1 mt-3 cursor-pointer">
+              Назад
+          </button>
+          <button 
+            onClick={() => navigate('/test4')}
+            className="outline-2 outline-teal text-xl text-teal hover:text-aqua hover:outline-aqua rounded w-24 p-1 mt-3 cursor-pointer">
+              Дальше
+          </button>
+        </div>
       </footer>
-    </body>
+    </main>
   )
 }
 

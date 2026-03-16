@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: Huninn;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/Huninn-Regular.woff2") format("woff2");
+}
+
+@theme {
+  --color-acid: #39FF14;
+  --color-lime: #CCFF00;
+  --color-lemon: #E6FF66;
+  --color-teal: #00FFCC;
+  --color-aqua: #00FFFF;
+  --color-crimson: #FF355E;
+  --color-indigo: #6F00FF;
+  --color-acid: #39FF14;
+  --color-electric: #E7FF00;
+  --color-neon: #CCFF00;
+  --color-magenta: #FF00CC;
+  --color-lilac: #FF1493;
+  --font-huninn: 'Huninn', sans-serif;
+}

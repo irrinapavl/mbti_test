@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { type RootState } from './store'
 import { QUESTIONS } from '../public/questions'
+import { types } from '../public/types'
 
 export const selectAnswers = (state: RootState) => state.answers.byId
 
@@ -25,30 +26,40 @@ export const selectScores = createSelector(
 export const selectMbtiType = createSelector(
   [selectScores],
   (scores) => {
-
-    const highestScore = Math.max(...Object.values(scores))
-    let domFn = ""
-    for (const fn in scores) {
-      if (scores[fn] === highestScore) domFn = fn
+    const typeScores: Record<string, number> = {
+      ESTP: 0,
+      ISTP: 0,
+      ESTJ: 0,
+      ISTJ: 0,
+      ESFP: 0,
+      ISFP: 0,
+      ENFP: 0,
+      INFP: 0,
+      ENTP: 0,
+      INTP: 0,
+      ENTJ: 0,
+      INTJ: 0,
+      ENFJ: 0,
+      INFJ: 0,
+      ESFJ: 0,
+      ISFJ: 0,
     }
+
+    types.forEach((type) => {
+      const typeTotal = []
+      for (let i = 1; i < 9; i++) {
+        const fn = type.order[i]
+        console.log(fn)
+        typeTotal.push(scores[fn] * i)
+      }
+      console.log(type.name, typeTotal)
+      typeScores[type.name] = typeTotal.reduce((acc, curr) => acc + curr, 0)
+    })
+
+    const sortedScores = Object.entries(typeScores).sort((a, b) => b[1] - a[1])
+    console.log(sortedScores)
     
-    let iE = 'I'
-    const extroverted = ["Se", "Fe", "Ne", "Te"]
-    if (extroverted.includes(domFn)) iE = 'E'
-    
-    const sensing = scores.Si + scores.Se
-    const intuition = scores.Ni + scores.Ne
-    const thinking = scores.Ti + scores.Te
-    const feeling = scores.Fi + scores.Fe
-
-    const judging = scores.Te + scores.Fe
-    const perceiving = scores.Se + scores.Ne
-
-    const sN = sensing >= intuition ? 'S' : 'N'
-    const tF = thinking >= feeling ? 'T' : 'F'
-    const jP = judging >= perceiving ? 'J' : 'P'
-  
-
-    return `${iE}${sN}${tF}${jP}`
+    if (sortedScores[0][1] === 0) return ""
+    else return sortedScores[0][0]
   }
 )
